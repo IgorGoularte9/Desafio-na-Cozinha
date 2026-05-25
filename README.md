@@ -222,7 +222,8 @@ Python 3.10+
 Arquivos necessários:
 
 ```txt
-arquivo ......
+arquivos.py
+main.py
 train.json
 ```
 
