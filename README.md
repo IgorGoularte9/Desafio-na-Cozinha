@@ -1,274 +1,135 @@
-# 🍳 Desafio na Cozinha
+# Desafio na Cozinha
 
-Projeto desenvolvido para a disciplina de Algoritmos e Estruturas de Dados II.
+Projeto desenvolvido para a disciplina de Algoritmos e Estruturas de Dados II (Trabalho 1 + Trabalho 2).
 
-O sistema simula um ambiente inteligente de gerenciamento de receitas para um restaurante, utilizando estruturas de dados implementadas do zero para garantir buscas rápidas, organização eficiente e detecção de inconsistências nas receitas cadastradas.
+O sistema simula um ambiente inteligente de gerenciamento de receitas e operações de um restaurante, utilizando estruturas de dados e algoritmos implementados do zero.
 
 ---
 
-# 👨‍🍳 Objetivo do Projeto
+# Objetivo do Projeto
 
-O projeto foi desenvolvido com o objetivo de auxiliar o chef Erick Jacquin na organização de receitas culinárias, permitindo:
+Auxiliar o chef Erick Jacquin na organização de receitas e, no T2, na logística operacional do restaurante:
 
 - Busca rápida de receitas
 - Organização eficiente dos ingredientes
 - Recomendação inteligente de cardápios
 - Verificação de integridade das receitas
-- Detecção de sabotagens e duplicatas
-
-Além disso, o sistema demonstra a aplicação prática de estruturas de dados e algoritmos estudados na disciplina.
+- Dependências de produção (Oficina)
+- Otimização de menus VIP
+- Rede logística de delivery
+- Planejamento inteligente de rotas de entrega
 
 ---
 
-# 🧠 Estruturas de Dados Utilizadas
+# Estruturas e Algoritmos
 
-O projeto implementa do zero as seguintes estruturas obrigatórias:
+## T1 — Estruturas obrigatórias
 
-## ✅ Tabela Hash
-
-Utilizada para:
-
+### Tabela Hash
 - Armazenamento principal das receitas
-- Busca rápida por ID
-- Indexação por categorias
-- Indexação por ingredientes
-- Verificação de duplicatas no Modo Investigação
+- Indexação por categorias e ingredientes
+- Detecção de duplicatas no Modo Investigação
+- Encadeamento (chaining) + função hash própria
 
-### Implementação:
-A tabela hash foi implementada utilizando:
+### Árvore Trie
+- Busca por prefixo no nome das receitas
 
-- Encadeamento (chaining)
-- Função hash personalizada
-- Suporte para chaves numéricas e textuais
+### Algoritmo Guloso
+- Menu Econômico: maximiza `avaliação / custo`
+- Menu Flash: maximiza `avaliação / tempo`
 
----
+### Integridade (SHA-256)
+- Cada receita possui assinatura digital do conteúdo
+- Detecta adulterações e duplicatas
 
-## ✅ Árvore Trie
+## T2 — Novos módulos
 
-Utilizada para:
+### Módulo 5 — Oficina de Produção
+- **Estrutura:** grafo dirigido (lista de adjacência)
+- **Algoritmo:** Ordenação Topológica (Kahn)
+- Detecta ciclos de dependência e gera ordem válida de preparo
+- Complexidade: O(V + E)
 
-- Busca eficiente por prefixo do nome das receitas
+### Módulo 6 — Menu Degustação VIP
+- **Algoritmo:** Programação Dinâmica (Mochila 0/1)
+- Maximiza lucro estimado ou avaliação sob orçamento/tempo
+- Complexidade: O(n · W), onde W é a capacidade (orçamento em centavos ou minutos)
 
-### Exemplo:
+### Módulo 7 — Pesadelo Logístico
+- **Estrutura:** grafo ponderado não-dirigido
+- **Kruskal + Union-Find:** Árvore Geradora Mínima (menor rede de conexões)
+- **Dijkstra:** caminho operacional de menor custo
+- **Edmonds-Karp:** fluxo máximo (capacidade de atendimento)
+- Rede gerada: **35 vértices** e **117 arestas** (acima do mínimo 30/50)
 
-Buscar:
+### Módulo 8 — Laboratório de Inovação do Chef
+**Desafio escolhido:** Planejamento Inteligente de Entregas
 
-```txt
-Greek
-```
-
-Retorna:
-
-```txt
-Greek Prato 12
-Greek Prato 27
-Greek Prato 88
-```
-
-A Trie permite buscas rápidas mesmo com grande volume de dados.
-
----
-
-## ✅ Algoritmo Guloso
-
-Utilizado no:
-
-- Modo Chef
-- Recomendação de cardápios
-
-### Estratégias implementadas:
-
-#### 🍽️ Menu Econômico
-Seleciona receitas com melhor relação:
-
-```txt
-Avaliação / Custo
-```
-
-#### ⚡ Menu Flash
-Seleciona receitas com melhor relação:
-
-```txt
-Avaliação / Tempo de preparo
-```
-
-O algoritmo escolhe receitas enquanto respeita:
-
-- orçamento máximo
-ou
-- tempo máximo disponível
+- **Algoritmo:** Heurística do Vizinho Mais Próximo (aproximação do Caixeiro Viajante)
+- Em cada passo, o entregador vai ao endereço válido mais próximo da posição atual
+- Garante rota rápida sem explorar todas as permutações (n!)
+- Complexidade: O(n²)
+- Limitação: não garante ótimo global; melhorias possíveis: 2-opt, Christofides, etc.
 
 ---
 
-# 📦 Fonte de Dados
-
-Os dados foram carregados a partir de um arquivo JSON contendo receitas culinárias.
-
-## Informações utilizadas:
-
-Cada receita possui:
-
-- ID
-- Categoria
-- Ingredientes
-
----
-
-# ⚙️ Funcionalidades do Sistema
-
-# 📖 Módulo 1 — Livro de Receitas
-
-Responsável por:
-
-- Carregar receitas do arquivo JSON
-- Criar objetos Receita
-- Armazenar receitas no sistema
-
----
-
-# 🔍 Módulo 2 — Consulta Rápida
-
-Permite:
-
-- Buscar receitas por nome
-- Buscar por prefixo
-- Buscar por categoria
-- Buscar por ingrediente
-- Buscar por ID
-
----
-
-# 🧂 Módulo 3 — Organização dos Ingredientes
-
-Relaciona ingredientes às receitas cadastradas utilizando Tabela Hash.
-
-Permite encontrar rapidamente receitas contendo determinado ingrediente.
-
----
-
-# 👨‍🍳 Modo Chef
-
-Sistema de recomendação automática de cardápios.
-
-## Funcionalidades:
-
-- Menu econômico
-- Menu rápido
-- Restrições de orçamento
-- Restrições de tempo
-- Priorização por avaliação
-
----
-
-# 🕵️ Modo Investigação
-
-Responsável por detectar:
-
-- Alterações indevidas
-- Receitas adulteradas
-- Duplicatas
-- Inconsistências
-
----
-
-# 🔐 Verificação de Integridade
-
-Cada receita possui um identificador único gerado utilizando:
-
-```python
-hashlib.sha256()
-```
-
-O hash é baseado em:
-
-- Nome
-- Categoria
-- Ingredientes
-- Tempo
-- Custo
-- Avaliação
-
-Quando uma receita é modificada, o sistema detecta automaticamente a alteração.
-
----
-
-# 💣 Simulador de Sabotagem
-
-O sistema possui uma funcionalidade para testar a auditoria.
-
-Ela altera:
-
-- Ingredientes
-- Custos
-
-Após isso, o Modo Investigação consegue identificar a corrupção dos dados.
-
----
-
-# ▶️ Como Executar
-
-## 1. Instale o Python
-
-Versão recomendada:
-
-```txt
-Python 3.10+
-```
-
----
-
-## 2. Coloque os arquivos na mesma pasta
-
-Arquivos necessários:
-
-```txt
-arquivos.py
-main.py
-train.json
-```
-
----
-
-## 3. Execute o programa
-
-No terminal:
+# Como Executar
 
 ```bash
+cd desafio
 python main.py
 ```
 
+Python 3.10+ recomendado. Apenas bibliotecas padrão (`json`, `random`, `hashlib`, `math`).
+
 ---
 
-# 🧪 Exemplo de Uso
-
-Ao iniciar o sistema, será exibido o menu principal:
+# Menu do Sistema
 
 ```txt
-1. Consulta Rápida
-2. Modo Chef
-3. Modo Investigação
-4. Simular Sabotagem
+1. Modo Consulta Rápida (T1)
+2. Modo Chef — Guloso + Menu VIP / PD (T1 + T2 M6)
+3. Modo Investigação (T1 + T2)
+4. Simular Sabotagem (T1 + ciclo de dependências)
+5. Oficina de Produção — Dependências (T2 M5)
+6. Modo Logística — Rede, MST, Fluxo (T2 M7)
+7. Planejamento de Entregas — Vizinho Mais Próximo (T2 M8)
 0. Sair
 ```
 
 ---
 
-# 📚 Bibliotecas Utilizadas
+# Arquivos
 
-Bibliotecas padrão do Python:
-
-```python
-json
-random
-hashlib
+```txt
+desafio/
+  main.py                 # Interface e integração dos modos
+  receita.py              # Modelo + hash de integridade
+  carregador.py           # Leitura do train.json
+  tabela_hash.py          # Tabela Hash
+  arvore_trie.py          # Trie
+  algoritmo_guloso.py     # Menus guloso (T1)
+  grafo_dependencias.py   # Grafo + Kahn (M5)
+  oficina_producao.py     # Cadastro de dependências
+  menu_vip.py             # Mochila 0/1 (M6)
+  rede_logistica.py       # MST, Dijkstra, Fluxo (M7)
+  rota_entregas.py        # Vizinho Mais Próximo (M8)
+  train.json              # Base de receitas
 ```
 
-Nenhuma biblioteca externa foi utilizada para substituir as estruturas principais exigidas pelo trabalho.
+---
+
+# Justificativa das escolhas (resumo)
+
+| Módulo | Problema | Por que essa solução |
+|--------|----------|----------------------|
+| M5 | Ordem de preparo com dependências | DAG + Kahn detecta ciclos e produz ordem linear |
+| M6 | Melhor menu sob restrições | PD da mochila encontra ótimo (ao contrário do guloso do T1) |
+| M7 | Infraestrutura e capacidade | MST minimiza custo de conexão; fluxo modela gargalos |
+| M8 | Rota de várias entregas | Vizinho mais próximo é rápido e suficiente para delivery em tempo real |
 
 ---
 
-# 👥 Integrantes
+# Integrantes
 
 - Igor Pereira, Rogerio Barros
-
----
